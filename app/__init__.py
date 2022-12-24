@@ -1,7 +1,7 @@
 from flask import Flask
 from config import Config
 from sqlalchemy.orm import sessionmaker
-from app.models import Base, Users
+from app.models import Base #, Users
 from sqlalchemy import create_engine
 
 app = Flask(__name__)
