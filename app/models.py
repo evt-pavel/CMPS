@@ -1,19 +1,12 @@
-from sqlalchemy import Column, ForeignKey, Integer, String, create_engine, select
-from sqlalchemy.orm import declarative_base, relationship
+from sqlalchemy import Column, ForeignKey, Integer, String, create_engine
+from sqlalchemy.orm import relationship
 from werkzeug.security import generate_password_hash, check_password_hash
+from app import Base, login, session
 from flask_login import UserMixin
-from app import loging_manager, session
 
 
-
-from app import Config
-
-Base = declarative_base()
-engine = create_engine(Config.DATABASE_URI)
-
-
-class Users(Base, UserMixin):
-    __tablename__ = 'users'
+class User(Base, UserMixin):
+    __tablename__ = 'user'
 
     id = Column(Integer, primary_key=True)
     name = Column(String(30), nullable=False)
@@ -31,9 +24,6 @@ class Users(Base, UserMixin):
         return check_password_hash(self.password_hash, password)
 
 
-Base.metadata.create_all(bind=engine)
-
-
-@loging_manager.load_user
-def load_user(user_id):
-    pass
+@login.user_loader
+def load_user(id):
+    return session.query(User).get(int(id))
