@@ -1,8 +1,10 @@
+import flask
 from app import app, session
 from flask import render_template, redirect, flash, request, url_for
-from app.forms import LoginForm
-from flask_login import login_user, current_user, login_required
+from app.forms import LoginForm, RegistrationForm
+from flask_login import login_user, current_user, login_required, logout_user
 from app.models import User
+from werkzeug.urls import url_parse
 
 
 @app.route('/')
@@ -24,5 +26,35 @@ def login():
             redirect(url_for('login'))
         login_user(user, remember=form.remember_me.data)
         flash('Loging success!')
-        return redirect(url_for('index'))
+        next_page = flask.request.args.get('next')
+        if not next_page or url_parse(next_page).netloc != '':
+            next_page = url_for('index')
+        return redirect(next_page)
     return render_template('login.html', form=form, title='Sign In')
+
+
+@login_required
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
+
+
+@app.route('/registration', methods=['GET', 'POST'])
+def registration():
+    if current_user.is_authenticated:
+        flash('Вы уже зарегистрированы и даже авторизированы!')
+        return redirect(url_for('index'))
+    form = RegistrationForm(request.form)
+    if request.method == 'POST' and form.validate():
+        user = User()
+        user.name = form.name.data
+        user.last_name = form.last_name.data
+        user.email = form.email.data
+        user.password_hash = user.generate_password(form.data.password)
+        flash('Congratulations, you are now a registered user!')
+        return redirect(url_for('login'))
+    return render_template('registration.html', title='Registration', form=form)
+
+
+

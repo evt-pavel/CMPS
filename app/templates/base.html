@@ -2,12 +2,17 @@
 <html lang="ru">
 <html>
     <head>
+         <link rel="shortcut icon" href="https://cgmag.net/wp-content/uploads/2015/06/493vLlm.gif" type="image/gif">
         <title>{{ title }}</title>
     </head>
     <body>
         <div>CMPS:
             <a href="{{ url_for('index') }}">Home</a>
-            <a href="{{ url_for('login') }}">Login</a></div>
+            {% if current_user.is_anonymous %}
+            <a href="{{ url_for('login') }}">Login</a>
+            {% else %}
+            <a href="{{ url_for('logout') }}">Logout</a></div>
+            {% endif %}
         <hr>
         {% with messages = get_flashed_messages() %}
         {% if messages %}
