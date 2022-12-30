@@ -15,8 +15,9 @@ class RegistrationForm(Form):
     name = StringField("Name*", [DataRequired(message='Enter your name!')])
     last_name = StringField("Last name*", [DataRequired(message='Enter your last name!')])
     email = StringField("Email*", [DataRequired(message='Enter email!'), Email()])
-    password = PasswordField('Password*', [DataRequired(message='Enter your password')])
-    repeat_password = PasswordField('Repeat password', [EqualTo()])
+    password = PasswordField('Password*', [DataRequired(message='Pick a password')])
+    repeat_password = PasswordField('Repeat password', [EqualTo('password', message='Pick a password')])
+    submit = SubmitField('Register!')
 
     def validate_email(self, email):
         user = session.query(User).filter_by(email=email.data).first()

@@ -47,14 +47,23 @@ def registration():
         return redirect(url_for('index'))
     form = RegistrationForm(request.form)
     if request.method == 'POST' and form.validate():
+
         user = User()
         user.name = form.name.data
         user.last_name = form.last_name.data
         user.email = form.email.data
-        user.password_hash = user.generate_password(form.data.password)
+        user.generate_password(form.password.data)
+
+        session.add(user)
+        session.commit()
+
         flash('Congratulations, you are now a registered user!')
         return redirect(url_for('login'))
     return render_template('registration.html', title='Registration', form=form)
 
 
-
+@app.route('/profile/<email>')
+@login_required
+def profile(email):
+    user = session.query(User).filter_by(email=email).first()
+    return render_template('profile.html', title='profile', user=user)
