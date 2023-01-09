@@ -25,7 +25,6 @@ class User(Base, UserMixin):
 
 
 class Part(Base):
-    #запчасть
     __tablename__ = 'part'
 
     id = Column(Integer, primary_key=True)
@@ -33,17 +32,24 @@ class Part(Base):
     description = Column(String)  # полное название детали
     price = Column(Integer)
     amount = Column(Integer)
-    brand = relationship('Brand')
-    type = relationship('Type')
-    model = relationship('Model')
-    element = relationship('Element')
+
+    brand_id = Column(Integer, ForeignKey('brand.id'))
+    brand = relationship('Brand', back_populates="parent")
+
+    type_id = Column(Integer, ForeignKey('type.id'))
+    type = relationship('Type', back_populates="parent")
+
+    model_id = Column(Integer, ForeignKey('model.id'))
+    model = relationship('Model', back_populates="parent")
+
+    element_id = Column(Integer, ForeignKey('element.id'))
+    element = relationship('Element', back_populates="parent")
 
 
 class Brand(Base):
     __tablename__ = 'brand'
     id = Column(Integer, primary_key=True)
     brand_name = Column(String(30))
-    part_id = Column(Integer, ForeignKey('part.id'))
     parent = relationship('Part', back_populates='brand')
 
 
@@ -51,7 +57,6 @@ class Type(Base):
     __tablename__ = 'type'
     id = Column(Integer, primary_key=True)
     type_name = Column(String)
-    part_id = Column(Integer, ForeignKey('part.id'))
     parent = relationship('Part', back_populates='type')
 
 
@@ -59,7 +64,6 @@ class Model(Base):
     __tablename__ = 'model'
     id = Column(Integer, primary_key=True)
     model_name = Column(String)
-    part_id = Column(Integer, ForeignKey('part.id'))
     parent = relationship('Part', back_populates='model')
 
 
@@ -69,7 +73,6 @@ class Element(Base):
 
     id = Column(Integer, primary_key=True)
     element_name = Column(String)
-    part_id = Column(Integer, ForeignKey('part.id'))
     parent = relationship('Part', back_populates='element')
 
 

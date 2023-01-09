@@ -3,14 +3,15 @@ from app import app, session
 from flask import render_template, redirect, flash, request, url_for
 from app.forms import LoginForm, RegistrationForm
 from flask_login import login_user, current_user, login_required, logout_user
-from app.models import User
+from app.models import User, Brand
 from werkzeug.urls import url_parse
 
 
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template('index.html', title='WLCM T CMPS')
+    brands = session.query(Brand).all()
+    return render_template('index.html', title='WLCM T CMPS', brands=brands)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -21,9 +22,11 @@ def login():
     form = LoginForm(request.form)
     if request.method == 'POST' and form.validate():
         user = session.query(User).filter_by(email=form.email.data).first()
+
         if user is None or user.check_password(form.password.data) == False:
             flash('Invalid username or password')
-            redirect(url_for('login'))
+            return redirect(url_for('login'))
+
         login_user(user, remember=form.remember_me.data)
         flash('Loging success!')
         next_page = flask.request.args.get('next')
@@ -67,3 +70,9 @@ def registration():
 def profile(email):
     user = session.query(User).filter_by(email=email).first()
     return render_template('profile.html', title='profile', user=user)
+
+
+# @app.route('/admin')
+# def admin():
+#     brand = session.query(Brand).all()
+#     return render_template('admin.html', bra)
