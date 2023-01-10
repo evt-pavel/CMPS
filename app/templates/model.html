@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Выберите модель!</h1>
+{% for model in models %}
+{{ model.model.model_name }}
+{% endfor %}
+{% endblock %}

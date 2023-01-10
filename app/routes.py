@@ -3,14 +3,14 @@ from app import app, session
 from flask import render_template, redirect, flash, request, url_for
 from app.forms import LoginForm, RegistrationForm
 from flask_login import login_user, current_user, login_required, logout_user
-from app.models import User, Brand
+from app.models import User, Brand, Part
 from werkzeug.urls import url_parse
 
 
 @app.route('/')
 @app.route('/index')
 def index():
-    brands = session.query(Brand).all()
+    brands = session.query(Part).all()
     return render_template('index.html', title='WLCM T CMPS', brands=brands)
 
 
@@ -65,14 +65,20 @@ def registration():
     return render_template('registration.html', title='Registration', form=form)
 
 
-@app.route('/profile/<email>')
+@app.route('/profile/<id>')
 @login_required
-def profile(email):
-    user = session.query(User).filter_by(email=email).first()
+def profile(id):
+    user = session.query(User).filter_by(id=id).first()
     return render_template('profile.html', title='profile', user=user)
 
 
-# @app.route('/admin')
-# def admin():
-#     brand = session.query(Brand).all()
-#     return render_template('admin.html', bra)
+@app.route('/<brand_name>/<brand_id>/type/', methods=['GET', 'POST'])
+def type(brand_id, brand_name):
+    types = session.query(Part).filter_by(brand_id=brand_id)
+    return render_template('type.html', types=types)
+
+
+@app.route('/<brand_name>/<brand_id>/type/<type_id>/model/')
+def model(brand_id, type_id, brand_name):
+    models = session.query(Part).filter(Part.brand_id == brand_id).filter(Part.model_id == type_id).all()
+    return render_template('model.html', models=models)
