@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Добавьте интересующую вас деталь в корзину!</h1>
+{% for part in parts %}
+{{ part.description }}
+{% if part.amount > 0 %}
+В наличии!
+{% else %}
+Нет в наличии!
+<br>
+{% endif %}
+Цена {{ part.price }} $
+<br>
+{% endfor %}
+{% endblock %}

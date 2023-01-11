@@ -2,7 +2,7 @@
 {% block content %}
 <h1>Выберите тип техники!</h1>
 {% for type in types %}
-
+<i><a href="{{ url_for('index') }}">Бренд:</a> {{ type.brand.brand_name }}/</i><br><br>
 <a href="{{ url_for('model', brand_id=type.brand_id, type_id=type.type_id, brand_name=type.brand.brand_name) }}">{{ type.type.type_name }}</a>
 {% endfor %}
 {% endblock %}

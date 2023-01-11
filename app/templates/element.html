@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Добавьте интересующую вас деталь в корзину!</h1>
+{% for element in elements %}
+<i>
+    <a href="{{ url_for('index') }}">Бренд:</a> {{ element.brand.brand_name }}/
+    <a href="{{ url_for('type', brand_id=element.brand_id, brand_name=element.brand.brand_name) }}">Тип:</a> {{ element.type.type_name }}/
+    <a href="{{ url_for('model', brand_id=element.brand_id, brand_name=element.brand.brand_name, type_id=element.type_id) }}">Модель:</a> {{ element.model.model_name }}
+</i>
+<br>
+<br>
+<a href="{{ url_for('part', brand_name=element.brand.brand_name,
+                            brand_id=element.brand_id,
+                            type_id=element.type_id,
+                            model_name=element.model.model_name,
+                            model_id=element.model_id,
+                            element_id=element.element_id,
+                            element_name=element.element.element_name) }}">{{ element.element.element_name }}</a>
+{% endfor %}
+{% endblock %}
+
+
+
+

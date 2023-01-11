@@ -10,7 +10,7 @@ from werkzeug.urls import url_parse
 @app.route('/')
 @app.route('/index')
 def index():
-    brands = session.query(Part).all()
+    brands = session.query(Part).group_by(Part.brand_id)
     return render_template('index.html', title='WLCM T CMPS', brands=brands)
 
 
@@ -74,11 +74,24 @@ def profile(id):
 
 @app.route('/<brand_name>/<brand_id>/type/', methods=['GET', 'POST'])
 def type(brand_id, brand_name):
-    types = session.query(Part).filter_by(brand_id=brand_id)
+    types = session.query(Part).filter_by(brand_id=brand_id).group_by(Part.type_id)
     return render_template('type.html', types=types)
 
 
 @app.route('/<brand_name>/<brand_id>/type/<type_id>/model/')
 def model(brand_id, type_id, brand_name):
-    models = session.query(Part).filter(Part.brand_id == brand_id).filter(Part.model_id == type_id).all()
+    models = session.query(Part).filter(Part.brand_id == brand_id).filter(Part.type_id == type_id).group_by(Part.model_id)
     return render_template('model.html', models=models)
+
+
+@app.route('/<brand_name>/<brand_id>/type/<type_id>/model/<model_name>/<model_id>/element')
+def element(brand_name, brand_id, type_id, model_name, model_id):
+    elements = session.query(Part).filter(Part.brand_id == brand_id).filter(Part.type_id == type_id).filter(Part.model_id == model_id).group_by(Part.element_id)
+    return render_template('element.html', elements=elements)
+
+
+
+@app.route('/<brand_name>/<brand_id>/type/<type_id>/model/<model_name>/<model_id>/element/<element_name>/<element_id>/part')
+def part(brand_name, brand_id, type_id, model_name, model_id, element_name, element_id):
+    parts = session.query(Part).filter(Part.brand_id == brand_id).filter(Part.type_id == type_id).filter(Part.model_id == model_id).filter(Part.element_id == element_id)
+    return render_template('part.html', parts=parts)

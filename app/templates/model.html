@@ -2,6 +2,16 @@
 {% block content %}
 <h1>Выберите модель!</h1>
 {% for model in models %}
-{{ model.model.model_name }}
+<i>
+    <a href="{{ url_for('index') }}">Бренд:</a> {{ model.brand.brand_name }}/
+    <a href="{{ url_for('type', brand_id=model.brand_id, brand_name=model.brand.brand_name) }}">Тип:</a> {{ model.type.type_name }}
+</i>
+<br>
+<br>
+<a href="{{ url_for('element', brand_name=model.brand.brand_name,
+                            brand_id=model.brand_id,
+                            type_id=model.type_id,
+                            model_name=model.model.model_name,
+                            model_id=model.model_id) }}">{{ model.model.model_name }}</a>
 {% endfor %}
 {% endblock %}
