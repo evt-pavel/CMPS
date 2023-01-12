@@ -74,24 +74,24 @@ def profile(id):
 
 @app.route('/<brand_name>/<brand_id>/type/', methods=['GET', 'POST'])
 def type(brand_id, brand_name):
-    types = session.query(Part).filter_by(brand_id=brand_id).group_by(Part.type_id)
-    return render_template('type.html', types=types)
+    parts = session.query(Part).filter_by(brand_id=brand_id).group_by(Part.type_id)
+    return render_template('type.html', parts=parts)
 
 
 @app.route('/<brand_name>/<brand_id>/type/<type_id>/model/')
 def model(brand_id, type_id, brand_name):
-    models = session.query(Part).filter(Part.brand_id == brand_id).filter(Part.type_id == type_id).group_by(Part.model_id)
-    return render_template('model.html', models=models)
+    parts = session.query(Part).filter(Part.brand_id == brand_id).filter(Part.type_id == type_id).group_by(Part.model_id)
+    return render_template('model.html', parts=parts)
 
 
 @app.route('/<brand_name>/<brand_id>/type/<type_id>/model/<model_name>/<model_id>/element')
 def element(brand_name, brand_id, type_id, model_name, model_id):
-    elements = session.query(Part).filter(Part.brand_id == brand_id).filter(Part.type_id == type_id).filter(Part.model_id == model_id).group_by(Part.element_id)
-    return render_template('element.html', elements=elements)
+    parts = session.query(Part).filter(Part.brand_id == brand_id).filter(Part.type_id == type_id).filter(Part.model_id == model_id).group_by(Part.element_id)
+    return render_template('element.html', parts=parts)
 
 
 
 @app.route('/<brand_name>/<brand_id>/type/<type_id>/model/<model_name>/<model_id>/element/<element_name>/<element_id>/part')
 def part(brand_name, brand_id, type_id, model_name, model_id, element_name, element_id):
-    parts = session.query(Part).filter(Part.brand_id == brand_id).filter(Part.type_id == type_id).filter(Part.model_id == model_id).filter(Part.element_id == element_id)
+    parts = session.query(Part).filter(Part.brand_id == brand_id).filter(Part.type_id == type_id).filter(Part.model_id == model_id).filter(Part.element_id == element_id).group_by(Part.id)
     return render_template('part.html', parts=parts)

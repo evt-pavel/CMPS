@@ -1,21 +1,22 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Добавьте интересующую вас деталь в корзину!</h1>
-{% for element in elements %}
+<h1>Выберите необходимую схему!</h1>
+
+{% set part = parts[0] %}
 <i>
-    <a href="{{ url_for('index') }}">Бренд:</a> {{ element.brand.brand_name }}/
-    <a href="{{ url_for('type', brand_id=element.brand_id, brand_name=element.brand.brand_name) }}">Тип:</a> {{ element.type.type_name }}/
-    <a href="{{ url_for('model', brand_id=element.brand_id, brand_name=element.brand.brand_name, type_id=element.type_id) }}">Модель:</a> {{ element.model.model_name }}
-</i>
-<br>
-<br>
-<a href="{{ url_for('part', brand_name=element.brand.brand_name,
-                            brand_id=element.brand_id,
-                            type_id=element.type_id,
-                            model_name=element.model.model_name,
-                            model_id=element.model_id,
-                            element_id=element.element_id,
-                            element_name=element.element.element_name) }}">{{ element.element.element_name }}</a>
+    <a href="{{ url_for('index') }}">Бренд:</a> {{ part.brand.brand_name }}/
+    <a href="{{ url_for('type', brand_id=part.brand_id, brand_name=part.brand.brand_name) }}">Тип:</a> {{ part.type.type_name }}/
+    <a href="{{ url_for('model', brand_id=part.brand_id, brand_name=part.brand.brand_name, type_id=part.type_id) }}">Модель:</a> {{ part.model.model_name }}
+</i><br><br>
+
+{% for part in parts %}
+<a href="{{ url_for('part', brand_name=part.brand.brand_name,
+                            brand_id=part.brand_id,
+                            type_id=part.type_id,
+                            model_name=part.model.model_name,
+                            model_id=part.model_id,
+                            element_id=part.element_id,
+                            element_name=part.element.element_name) }}">{{ part.element.element_name }}</a><br>
 {% endfor %}
 {% endblock %}
 
