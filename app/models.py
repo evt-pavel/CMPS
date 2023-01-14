@@ -65,6 +65,7 @@ class Model(Base):
     id = Column(Integer, primary_key=True)
     model_name = Column(String)
     parent = relationship('Part', back_populates='model')
+    image = relationship('ElementImage', back_populates='model')
 
 
 class Element(Base):
@@ -74,6 +75,20 @@ class Element(Base):
     id = Column(Integer, primary_key=True)
     element_name = Column(String)
     parent = relationship('Part', back_populates='element')
+    image = relationship('ElementImage', back_populates='element')
+
+
+class ElementImage(Base):
+    __tablename__ = 'element_image'
+
+    id = Column(Integer, primary_key=True)
+    url = Column(String)
+
+    model_id = Column(Integer, ForeignKey('model.id'))
+    model = relationship('Model', back_populates="image")
+
+    element_id = Column(Integer, ForeignKey('element.id'))
+    element = relationship('Element', back_populates="image")
 
 
 @login.user_loader

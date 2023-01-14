@@ -3,7 +3,7 @@ from app import app, session
 from flask import render_template, redirect, flash, request, url_for
 from app.forms import LoginForm, RegistrationForm
 from flask_login import login_user, current_user, login_required, logout_user
-from app.models import User, Brand, Part
+from app.models import User, Part, ElementImage
 from werkzeug.urls import url_parse
 
 
@@ -80,18 +80,25 @@ def type(brand_id, brand_name):
 
 @app.route('/<brand_name>/<brand_id>/type/<type_id>/model/')
 def model(brand_id, type_id, brand_name):
-    parts = session.query(Part).filter(Part.brand_id == brand_id).filter(Part.type_id == type_id).group_by(Part.model_id)
+    parts = session.query(Part).filter(Part.brand_id == brand_id).filter(Part.type_id == type_id)\
+        .group_by(Part.model_id)
     return render_template('model.html', parts=parts)
 
 
 @app.route('/<brand_name>/<brand_id>/type/<type_id>/model/<model_name>/<model_id>/element')
 def element(brand_name, brand_id, type_id, model_name, model_id):
-    parts = session.query(Part).filter(Part.brand_id == brand_id).filter(Part.type_id == type_id).filter(Part.model_id == model_id).group_by(Part.element_id)
+    parts = session.query(Part).filter(Part.brand_id == brand_id).filter(Part.type_id == type_id)\
+        .filter(Part.model_id == model_id).group_by(Part.element_id)
     return render_template('element.html', parts=parts)
 
 
-
-@app.route('/<brand_name>/<brand_id>/type/<type_id>/model/<model_name>/<model_id>/element/<element_name>/<element_id>/part')
+@app.route('/<brand_name>/<brand_id>/type/<type_id>/model/<model_name>/<model_id>/element/<element_name>/<element_id>/'
+           'part')
 def part(brand_name, brand_id, type_id, model_name, model_id, element_name, element_id):
-    parts = session.query(Part).filter(Part.brand_id == brand_id).filter(Part.type_id == type_id).filter(Part.model_id == model_id).filter(Part.element_id == element_id).group_by(Part.id)
-    return render_template('part.html', parts=parts)
+    parts = session.query(Part).filter(Part.brand_id == brand_id).filter(Part.type_id == type_id)\
+        .filter(Part.model_id == model_id).filter(Part.element_id == element_id).group_by(Part.id)
+    #  image = session.query(ElementImage).filter(ElementImage.model_id == model_id)\
+    #      .filter(ElementImage.element_id == element_id).group_by(ElementImage.element_id)
+    image = session.query(ElementImage).filter(ElementImage.model_id == model_id)\
+        .filter(ElementImage.element_id == element_id).first() or {'url': 'element_images/default.jpeg'}
+    return render_template('part.html', parts=parts, image=image)
