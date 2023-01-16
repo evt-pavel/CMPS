@@ -1,4 +1,4 @@
-from sqlalchemy import Column, ForeignKey, Integer, String, create_engine, DECIMAL
+from sqlalchemy import Column, ForeignKey, Integer, String, DATE
 from sqlalchemy.orm import relationship
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import Base, login, session
@@ -13,6 +13,7 @@ class User(Base, UserMixin):
     last_name = Column(String(30), nullable=False)
     email = Column(String(50), nullable=False)
     password_hash = Column(String(128), nullable=False)
+    parent = relationship('Order', back_populates='user')
 
     def __repr__(self):
         return f"User(id={self.id!r}, name={self.name!r}, last_name={self.last_name!r})"
@@ -44,6 +45,8 @@ class Part(Base):
 
     element_id = Column(Integer, ForeignKey('element.id'))
     element = relationship('Element', back_populates="parent")
+
+    parent = relationship('Basket', back_populates='part')
 
 
 class Brand(Base):
@@ -89,6 +92,33 @@ class ElementImage(Base):
 
     element_id = Column(Integer, ForeignKey('element.id'))
     element = relationship('Element', back_populates="image")
+
+
+class Order(Base):
+    __tablename__ = 'order'
+
+    id = Column (Integer, primary_key=True)
+    address = Column(String)
+    status = Column(Integer)
+    date_order = Column(DATE)
+
+    user_id = Column(Integer, ForeignKey('user.id'))
+    user = relationship('User', back_populates='parent')
+
+    parent = relationship('Basket', back_populates='order')
+
+
+class Basket(Base):
+    __tablename__ = 'basket'
+
+    id = Column(Integer, primary_key=True)
+    amount = Column(Integer)
+
+    part_id = Column(Integer, ForeignKey('part.id'))
+    part = relationship('Part', back_populates='parent')
+
+    order_id = Column(Integer, ForeignKey('order.id'))
+    order = relationship('Order', back_populates='parent')
 
 
 @login.user_loader

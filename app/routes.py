@@ -97,8 +97,11 @@ def element(brand_name, brand_id, type_id, model_name, model_id):
 def part(brand_name, brand_id, type_id, model_name, model_id, element_name, element_id):
     parts = session.query(Part).filter(Part.brand_id == brand_id).filter(Part.type_id == type_id)\
         .filter(Part.model_id == model_id).filter(Part.element_id == element_id).group_by(Part.id)
-    #  image = session.query(ElementImage).filter(ElementImage.model_id == model_id)\
-    #      .filter(ElementImage.element_id == element_id).group_by(ElementImage.element_id)
     image = session.query(ElementImage).filter(ElementImage.model_id == model_id)\
         .filter(ElementImage.element_id == element_id).first() or {'url': 'element_images/default.jpeg'}
     return render_template('part.html', parts=parts, image=image)
+
+
+# админка
+# @app.route('/admin')
+
