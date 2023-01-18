@@ -19,6 +19,9 @@
     {% else %}
         Нет в наличии!
     {% endif %}
-    Цена {{ part.price }}, $<br>
+    Цена {{ part.price }}, $
+    <a href="{{ url_for('addToBasket', part_id=part.id) }}">Add</a>
+<br>
+
 {% endfor %}
 {% endblock %}

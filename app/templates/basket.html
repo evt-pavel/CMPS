@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<table>
+    <tr>
+        <td>Номер</td>
+        <td>Название</td>
+        <td>Цена</td>
+        <td>Количество</td>
+    </tr>
+{% for b in basket %}
+    <tr>
+        <td>{{ b.part.part_number }}</td>
+        <td>{{ b.part.description }}</td>
+        <td>{{ b.part.price * b.amount }}</td>
+        <td>{{ b.amount }}</td>
+        <td><a href="{{ url_for('deleteFromBasket', order_id=b.order_id, part_id=b.part_id) }}">delete</a> </td>
+    </tr>
+    <br>
+</table>
+
+{% endfor %}
+{% endblock %}
