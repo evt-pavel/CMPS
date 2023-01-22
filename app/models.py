@@ -1,8 +1,9 @@
 from sqlalchemy import Column, ForeignKey, Integer, String, DATE
 from sqlalchemy.orm import relationship
 from werkzeug.security import generate_password_hash, check_password_hash
-from app import Base, login, session
+from app import Base, login, Session, admin
 from flask_login import UserMixin
+from flask_admin.contrib.sqla import ModelView
 
 
 class User(Base, UserMixin):
@@ -123,4 +124,6 @@ class Basket(Base):
 
 @login.user_loader
 def load_user(id):
+    with Session() as session:
+        user = session.query(User).get(int(id))
     return session.query(User).get(int(id))
