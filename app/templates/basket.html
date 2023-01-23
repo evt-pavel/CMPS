@@ -1,22 +1,42 @@
 {% extends "base.html" %}
 {% block content %}
-<table>
-    <tr>
-        <td>Номер</td>
-        <td>Название</td>
-        <td>Цена</td>
-        <td>Количество</td>
-    </tr>
-{% for b in basket %}
-    <tr>
-        <td>{{ b.part.part_number }}</td>
-        <td>{{ b.part.description }}</td>
-        <td>{{ b.part.price * b.amount }}</td>
-        <td>{{ b.amount }}</td>
-        <td><a href="{{ url_for('deleteFromBasket', order_id=b.order_id, part_id=b.part_id) }}">delete</a> </td>
-    </tr>
-    <br>
-</table>
 
-{% endfor %}
+{% if basket == 'Корзина пуста!' %}
+    <h1>{{ basket }}</h1>
+{% else %}
+    <table>
+        <tr>
+            <td>Номер</td>
+            <td>Название</td>
+            <td>Цена</td>
+            <td>Количество</td>
+        </tr>
+        {% for b in basket %}
+        <tr>
+            <td>{{ b.part.part_number }}</td>
+            <td>{{ b.part.description }}</td>
+            <td>{{ b.part.price * b.amount }}</td>
+            <td>{{ b.amount }}</td>
+            <td><a href="{{ url_for('deleteFromBasket', order_id=b.order_id, part_id=b.part_id) }}">delete</a> </td>
+        </tr>
+        <br>
+    </table>
+
+        {% endfor %}
+    <h3>Введите адрес!</h3>
+    <form action="" method="POST" novalidate>
+        <p>
+            {{ form.address.label }}<br>
+            {{ form.address(size=64) }}<br>
+            {% if form.address.errors %}
+                {% for error in form.address.errors %}
+                    <span style="color: red;">{{ error }}</span>
+                {% endfor %}
+            {% endif %}
+        </p>
+        <p>
+            {{ form.submit() }}
+        </p>
+</form>
+{% endif %}
 {% endblock %}
