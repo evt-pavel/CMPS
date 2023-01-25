@@ -5,6 +5,7 @@ from app.forms import LoginForm, RegistrationForm, RegistrationOrder
 from flask_login import login_user, current_user, login_required, logout_user
 from app.models import User, Part, ElementImage, Order, Basket
 from werkzeug.urls import url_parse
+from datetime import datetime
 
 
 @app.route('/')
@@ -114,16 +115,21 @@ def basket():
     form = RegistrationOrder(request.form)
     if request.method == 'POST' and form.validate():
         with scoped_session() as session:
-            order = session.query(Order).filter_by(user=current_user).filter(Order.status == 0).first()
+            order = session.query(Order).filter_by(user=current_user).filter(Order.status == None).first()
+
             basket = session.query(Basket).filter_by(order=order).all()
             print(order.user.name, order.user.last_name)
-            print(form.address.data)
+            print('Адрес:', form.address.data)
             for b in basket:
-                print(b.id, b.part.part_number, b.part.description, b.amount)
+                print(f'{b.id}. {b.part.part_number} {b.part.description} {b.amount} шт.')
+            order.status = 1
+            order.address = form.address.data
+            order.date_order = datetime.utcnow()
 
     with scoped_session() as session:
-        order = session.query(Order).filter(Order.user_id == current_user.id).filter(Order.status == 0).first()
+        order = session.query(Order).filter(Order.user_id == current_user.id).filter(Order.status == None).first()
     # добавить проверку есть ли уже созданный заказ или нет, если нет то создать
+
         if order == None:
             basket = 'Корзина пуста!'
         else:
@@ -135,14 +141,15 @@ def basket():
 @login_required
 def addToBasket(part_id):
     with scoped_session() as session:
-        order = session.query(Order).filter_by(user_id=current_user.id).filter(Order.status == 0).first()
+        order = session.query(Order).filter_by(user_id=current_user.id).filter(Order.status == None).first()
         part = session.query(Part).get(part_id)
 
         if order == None:
-            #тут ошибка
-            order = Order(user=current_user)
+            user = session.query(User).filter_by(id=current_user.id).first()
+            order = Order(user=user)
             session.add(order)
-            basket = Basket(amount=1, part=part, order=order)
+            order = session.query(Order).get(2)
+            part_to_basket = Basket(order=order, part=part, amount=1)
 
         else:
             part_in_basket = session.query(Basket).filter_by(order_id=order.id).filter_by(part_id=part.id).first()
