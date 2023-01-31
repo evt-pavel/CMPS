@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% for part in parts %}
+    {{ part.part.description }} для {{ part.part.brand.brand_name }}
+{{ part.part.model.model_name }} - {{ part.amount }} шт.<br>
+{% endfor %}
+<a href="{{ url_for('profile', username=current_user.name, id=current_user.id) }}">Назад</a>
+
+{% endblock %}

@@ -73,7 +73,17 @@ def registration():
 def profile(id):
     with scoped_session() as session:
         user = session.query(User).filter_by(id=id).first()
-    return render_template('profile.html', title='profile', user=user)
+        orders = session.query(Order).filter_by(user_id=current_user.id).filter_by(status=1).all()
+    return render_template('profile.html', title='profile', user=user, orders=orders)
+
+
+@app.route('/profile/order/<order_id>')
+@login_required
+def order(order_id):
+    with scoped_session() as session:
+        parts = session.query(Basket).filter_by(order_id=order_id).all()
+        return render_template('order.html', parts=parts)
+
 
 
 @app.route('/<brand_name>/<brand_id>/type/', methods=['GET', 'POST'])

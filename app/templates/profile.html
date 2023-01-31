@@ -2,6 +2,14 @@
 {% block content %}
 <h1>Profile: {{ user.name }} {{user.last_name}}</h1>
 email: {{ user.email }}
+<br>
+
+Мои заказы:<br>
+
+{% for order in orders %}
+    <a href="{{ url_for('order', order_id=order.id) }}">Заказ №{{ order.id }}
+        от {{ order.date_order }}</a><br>
+{% endfor %}
 
 
 
