@@ -138,12 +138,14 @@ def basket():
 
     with scoped_session() as session:
         order = session.query(Order).filter(Order.user_id == current_user.id).filter(Order.status == None).first()
-    # добавить проверку есть ли уже созданный заказ или нет, если нет то создать
 
         if order == None:
             basket = 'Корзина пуста!'
         else:
             basket = session.query(Basket).filter(Basket.order_id == order.id).group_by(Basket.part_id).all()
+            print(basket)
+            if basket == []:
+                basket = 'Корзина пуста!'
         return render_template('basket.html', basket=basket, form=form)
 
 
@@ -158,7 +160,7 @@ def addToBasket(part_id):
             user = session.query(User).filter_by(id=current_user.id).first()
             order = Order(user=user)
             session.add(order)
-            order = session.query(Order).get(2)
+            order = session.query(Order).filter_by(user_id=current_user.id).filter(Order.status == None).first()
             part_to_basket = Basket(order=order, part=part, amount=1)
 
         else:
