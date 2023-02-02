@@ -26,9 +26,5 @@ class RegistrationForm(Form):
             raise ValidationError('Please use a different username.')
 
 
-class RegistrationOrder(Form):
-    address = StringField("Address", [DataRequired(message='Введите адрес доставки!')])
-    submit = SubmitField('Заказать!')
-
 
 

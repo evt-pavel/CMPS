@@ -1,7 +1,7 @@
 from sqlalchemy import Column, ForeignKey, Integer, String, DATE
 from sqlalchemy.orm import relationship
 from werkzeug.security import generate_password_hash, check_password_hash
-from app import Base, login, scoped_session
+from app import Base, scoped_session, login
 from flask_login import UserMixin
 
 
@@ -126,7 +126,6 @@ def load_user(id):
     with scoped_session() as session:
         user = session.query(User).get(int(id))
     return session.query(User).get(int(id))
-
 
 
 

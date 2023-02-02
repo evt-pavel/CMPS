@@ -4,12 +4,12 @@
 
 {% set part = parts[0] %}
 <i>
-    <a href="{{ url_for('index') }}">Бренд:</a> {{ part.brand.brand_name }}/
-    <a href="{{ url_for('type', brand_id=part.brand_id, brand_name=part.brand.brand_name) }}">Тип:</a> {{ part.type.type_name }}
+    <a href="{{ url_for('main.index') }}">Бренд:</a> {{ part.brand.brand_name }}/
+    <a href="{{ url_for('main.type', brand_id=part.brand_id, brand_name=part.brand.brand_name) }}">Тип:</a> {{ part.type.type_name }}
 </i><br><br>
 
 {% for part in parts %}
-<a href="{{ url_for('element', brand_name=part.brand.brand_name,
+<a href="{{ url_for('main.element', brand_name=part.brand.brand_name,
                             brand_id=part.brand_id,
                             type_id=part.type_id,
                             model_name=part.model.model_name,
