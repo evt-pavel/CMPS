@@ -20,7 +20,7 @@
         Нет в наличии!
     {% endif %}
     Цена {{ part.price }}, $
-    <a href="{{ url_for('main.addToBasket', part_id=part.id) }}">Add</a>
+    <a href="{{ url_for('main.addToBasket', part_id=part.id) }}">Добавить в корзину</a>
 <br>
 
 {% endfor %}

@@ -50,12 +50,20 @@ class Part(Base):
 
     parent = relationship('Basket', back_populates='part')
 
+    def __repr__(self):
+        return (self.description)
+
+
 
 class Brand(Base):
     __tablename__ = 'brand'
     id = Column(Integer, primary_key=True)
     brand_name = Column(String(30))
     parent = relationship('Part', back_populates='brand')
+
+    def __repr__(self):
+        return (self.brand_name)
+
 
 
 class Type(Base):
@@ -64,13 +72,19 @@ class Type(Base):
     type_name = Column(String)
     parent = relationship('Part', back_populates='type')
 
+    def __repr__(self):
+        return (self.type_name)
+
 
 class Model(Base):
     __tablename__ = 'model'
     id = Column(Integer, primary_key=True)
     model_name = Column(String)
     parent = relationship('Part', back_populates='model')
-    image = relationship('ElementImage', back_populates='model')
+    image = relationship('ElementImage', back_populates='model')   
+
+    def __repr__(self):
+        return (self.model_name)
 
 
 class Element(Base):
@@ -81,6 +95,9 @@ class Element(Base):
     element_name = Column(String)
     parent = relationship('Part', back_populates='element')
     image = relationship('ElementImage', back_populates='element')
+
+    def __repr__(self):
+        return (self.element_name)
 
 
 class ElementImage(Base):

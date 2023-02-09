@@ -1,16 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
-{% if current_user.is_anonymous %}
-    <h1>Добро пожаловать!</h1> <br>
-    <h3>Запчасти для какого бренда вас интересуют?</h3>
-{% else %}
-    <h1>Привет, {{ current_user.name }}1!!</h1>
-<h3>Запчасти для какого бренда вас интересуют?</h3>
-{% endif %}
+    <h1>Каталог запчастей для китайских мотоциклов!</h1> <br>
+
 
 {% for brand in brands %}
-    <a href="{{ url_for('main.type', brand_id=brand.brand_id, brand_name=brand.brand.brand_name) }}">{{ brand.brand.brand_name }}</a>
+    <a href="{{ url_for('main.type', brand_id=brand.brand_id, brand_name=brand.brand.brand_name) }}">
+        {{ brand.brand.brand_name }}
+    </a> <br>
 {% endfor %}
 
 {% endblock %}

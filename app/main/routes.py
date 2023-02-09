@@ -76,6 +76,7 @@ def basket():
         order.status = 1
         order.address = form.address.data
         order.date_order = datetime.utcnow()
+        session.commit()
 
 
     order = session.query(Order).filter(Order.user_id == current_user.id).filter(Order.status == None).first()

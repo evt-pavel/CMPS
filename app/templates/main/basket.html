@@ -17,7 +17,7 @@
             <td>{{ b.part.description }}</td>
             <td>{{ b.part.price * b.amount }}</td>
             <td>{{ b.amount }}</td>
-            <td><a href="{{ url_for('main.deleteFromBasket', order_id=b.order_id, part_id=b.part_id) }}">delete</a> </td>
+            <td><a href="{{ url_for('main.deleteFromBasket', order_id=b.order_id, part_id=b.part_id) }}">Удалить</a> </td>
         </tr>
         <br>
     </table>
