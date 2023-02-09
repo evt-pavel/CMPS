@@ -1,32 +1,49 @@
 <!DOCTYPE html>
 <html lang="ru">
 <html>
-    <head>
-         <link rel="shortcut icon" href="https://cgmag.net/wp-content/uploads/2015/06/493vLlm.gif" type="image/gif">
-        <title>{{ title }}</title>
-    </head>
-    <body>
-        <div>
-            CMPS:
-            <a href="{{ url_for('main.index') }}">Home</a>
-            {% if current_user.is_anonymous %}
-            <a href="{{ url_for('auth.login') }}">Login</a>
-            {% else %}
-            <a href="{{ url_for('main.profile', username=current_user.name, id=current_user.id) }}">Profile</a>
-            <a href="{{ url_for('main.basket') }}">Basket</a>
-            <a href="{{ url_for('auth.logout') }}">Logout</a>
-        </div>
-            {% endif %}
-        <hr>
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
+
+<head>
+    <link rel="shortcut icon" href="https://cgmag.net/wp-content/uploads/2015/06/493vLlm.gif" type="image/gif">
+    <link type="text/css" href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet"/>
+    <title>{{ title }}</title>
+</head>
+<body>
+
+<div class="nav-conteiner">
+    <nav>
         <ul>
-            {% for message in messages %}
-            <li>{{ message }}</li>
-            {% endfor %}
+            <li><a href="{{ url_for('main.index') }} ">Home</a></li>
+            <li><a href="#">Contacts</a></li>
+            <li><a href="#">About</a></li>
         </ul>
-        {% endif %}
-        {% endwith %}
-        {% block content %}{% endblock %}
-    </body>
+
+    </nav>
+    <nav>
+        <ul>
+            {% if current_user.is_anonymous %}
+                <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+            {% else %}
+
+            <li><a href="{{ url_for('main.profile', username=current_user.name, id=current_user.id) }}">Profile</a></li>
+            <li><a href="{{ url_for('main.basket') }}">Basket</a></li>
+            <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+        </ul>
+            {% endif %}
+    </nav>
+
+
+</div>
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul>
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+{% endwith %}
+{% block content %}{% endblock %}
+</body>
 </html>

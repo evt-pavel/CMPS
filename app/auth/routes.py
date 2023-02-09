@@ -1,5 +1,5 @@
 import flask
-from app import scoped_session
+from app import session
 from flask import render_template, redirect, flash, request, url_for
 from app.auth.forms import LoginForm, RegistrationForm
 from app.auth import bp
@@ -14,9 +14,9 @@ def login():
         flash('Вы уже авторизированы!')
         return redirect(url_for('index'))
     form = LoginForm(request.form)
+
     if request.method == 'POST' and form.validate():
-        with scoped_session() as session:
-            user = session.query(User).filter_by(email=form.email.data).first()
+        user = session.query(User).filter_by(email=form.email.data).first()
 
         if user is None or user.check_password(form.password.data) is False:
             flash('Invalid username or password')
@@ -45,14 +45,13 @@ def registration():
         return redirect(url_for('main.index'))
     form = RegistrationForm(request.form)
     if request.method == 'POST' and form.validate():
-
-        with scoped_session() as session:
-            user = User()
-            user.name = form.name.data
-            user.last_name = form.last_name.data
-            user.email = form.email.data
-            user.generate_password(form.password.data)
-            session.add(user)
+        user = User()
+        user.name = form.name.data
+        user.last_name = form.last_name.data
+        user.email = form.email.data
+        user.generate_password(form.password.data)
+        session.add(user)
+        session.commit()
 
         flash('Congratulations, you are now a registered user!')
         return redirect(url_for('auth.login'))

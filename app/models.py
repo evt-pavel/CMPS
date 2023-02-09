@@ -1,8 +1,10 @@
 from sqlalchemy import Column, ForeignKey, Integer, String, DATE
 from sqlalchemy.orm import relationship
 from werkzeug.security import generate_password_hash, check_password_hash
-from app import Base, scoped_session, login
+from app import Base, session, login, admin
 from flask_login import UserMixin
+from flask_admin.contrib.sqla import ModelView
+
 
 
 class User(Base, UserMixin):
@@ -123,9 +125,21 @@ class Basket(Base):
 
 @login.user_loader
 def load_user(id):
-    with scoped_session() as session:
-        user = session.query(User).get(int(id))
-    return session.query(User).get(int(id))
+    user = session.query(User).get(int(id))
+    return user
+
+
+
+
+admin.add_view(ModelView(User, session, name='Пользователи'))
+admin.add_view(ModelView(Brand, session, name='Бренды'))
+admin.add_view(ModelView(Type, session, name='Тип ТС'))
+admin.add_view(ModelView(Model, session, name='Модели'))
+admin.add_view(ModelView(Element, session, name='Схемы'))
+admin.add_view(ModelView(Part, session, name='Запчасти'))
+
+
+
 
 
 
