@@ -12,7 +12,7 @@ from werkzeug.urls import url_parse
 def login():
     if current_user.is_authenticated:
         flash('Вы уже авторизированы!')
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
     form = LoginForm(request.form)
 
     if request.method == 'POST' and form.validate():

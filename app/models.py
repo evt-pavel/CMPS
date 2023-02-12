@@ -36,19 +36,13 @@ class Part(Base):
     price = Column(Integer)
     amount = Column(Integer)
 
-    brand_id = Column(Integer, ForeignKey('brand.id'))
-    brand = relationship('Brand', back_populates="parent")
-
-    type_id = Column(Integer, ForeignKey('type.id'))
-    type = relationship('Type', back_populates="parent")
-
-    model_id = Column(Integer, ForeignKey('model.id'))
+    model_id = Column(Integer, ForeignKey('model.id'),  nullable=False)
     model = relationship('Model', back_populates="parent")
 
-    element_id = Column(Integer, ForeignKey('element.id'))
+    element_id = Column(Integer, ForeignKey('element.id'), nullable=False)
     element = relationship('Element', back_populates="parent")
 
-    parent = relationship('Basket', back_populates='part')
+    parent = relationship('Basket', back_populates='part')   # переделать
 
     def __repr__(self):
         return (self.description)
@@ -59,7 +53,7 @@ class Brand(Base):
     __tablename__ = 'brand'
     id = Column(Integer, primary_key=True)
     brand_name = Column(String(30))
-    parent = relationship('Part', back_populates='brand')
+    parent = relationship('Model', back_populates='brand')
 
     def __repr__(self):
         return (self.brand_name)
@@ -70,7 +64,7 @@ class Type(Base):
     __tablename__ = 'type'
     id = Column(Integer, primary_key=True)
     type_name = Column(String)
-    parent = relationship('Part', back_populates='type')
+    parent = relationship('Model', back_populates='type')
 
     def __repr__(self):
         return (self.type_name)
@@ -80,8 +74,17 @@ class Model(Base):
     __tablename__ = 'model'
     id = Column(Integer, primary_key=True)
     model_name = Column(String)
+
+    brand_id = Column(Integer, ForeignKey('brand.id'), nullable=False)
+    brand = relationship('Brand', back_populates="parent")
+
+    type_id = Column(Integer, ForeignKey('type.id'), nullable=False)
+    type = relationship('Type', back_populates="parent")
+
     parent = relationship('Part', back_populates='model')
-    image = relationship('ElementImage', back_populates='model')   
+    
+    image_id = Column(Integer, ForeignKey('element_image.id'))
+ 
 
     def __repr__(self):
         return (self.model_name)
@@ -94,7 +97,8 @@ class Element(Base):
     id = Column(Integer, primary_key=True)
     element_name = Column(String)
     parent = relationship('Part', back_populates='element')
-    image = relationship('ElementImage', back_populates='element')
+    # image = relationship('ElementImage', back_populates='element')
+    image_id = Column(Integer, ForeignKey('element_image.id'))
 
     def __repr__(self):
         return (self.element_name)
@@ -106,11 +110,8 @@ class ElementImage(Base):
     id = Column(Integer, primary_key=True)
     url = Column(String)
 
-    model_id = Column(Integer, ForeignKey('model.id'))
-    model = relationship('Model', back_populates="image")
-
-    element_id = Column(Integer, ForeignKey('element.id'))
-    element = relationship('Element', back_populates="image")
+    model = relationship('Model')
+    element = relationship('Element')
 
 
 class Order(Base):
@@ -154,6 +155,7 @@ admin.add_view(ModelView(Type, session, name='Тип ТС'))
 admin.add_view(ModelView(Model, session, name='Модели'))
 admin.add_view(ModelView(Element, session, name='Схемы'))
 admin.add_view(ModelView(Part, session, name='Запчасти'))
+admin.add_view(ModelView(ElementImage, session, name='Картинка Схемы'))
 
 
 

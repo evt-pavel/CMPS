@@ -1,6 +1,6 @@
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, Form
 from wtforms.validators import DataRequired, Email, EqualTo, ValidationError
-from app import scoped_session
+from app import session
 from app.models import User
 
 
@@ -20,8 +20,7 @@ class RegistrationForm(Form):
     submit = SubmitField('Register!')
 
     def validate_email(self, email):
-        with scoped_session() as session:
-            user = session.query(User).filter_by(email=email.data).first()
+        user = session.query(User).filter_by(email=email.data).first()
         if user is not None:
             raise ValidationError('Please use a different username.')
 

@@ -5,8 +5,8 @@
 
 
 {% for brand in brands %}
-    <a href="{{ url_for('main.type', brand_id=brand.brand_id, brand_name=brand.brand.brand_name) }}">
-        {{ brand.brand.brand_name }}
+    <a href="{{ url_for('main.type', brand_id=brand.model.brand_id, brand_name=brand.model.brand.brand_name) }}">
+        {{ brand.model.brand.brand_name }}
     </a> <br>
 {% endfor %}
 
