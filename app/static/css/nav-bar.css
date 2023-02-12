@@ -1,0 +1,80 @@
+.navbar {
+    display: flex;
+    background-color:rgba(206, 113, 193, 0.692);
+    
+}
+
+.nav-href {
+    display: flex;
+    text-align: left;
+}
+
+.nav-href>a {
+    display: block;
+    padding: 1em;
+    text-decoration: none;
+    color:blueviolet;
+
+}
+
+.nav-href a:hover {
+    background-color:rgba(201, 143, 193, 0.692);
+}
+
+.nav-list {
+    display: flex;
+}
+
+.nav-list a {
+    display: block;
+    padding: 1em;
+    text-decoration: none;
+    color:blueviolet
+}
+
+.nav-list a:hover {
+background-color:rgba(201, 143, 193, 0.692);
+
+}
+
+.nav-btn {
+    display: none
+}
+
+@media (max-width: 1000px) {
+    .nav-btn {
+        display: block;
+        font-size: 3em;
+        padding-inline: 10px;
+        padding-bottom: 5px;
+        background-color:rgba(206, 113, 193, 0.692);
+        border: none;
+        color:blueviolet;
+        cursor: pointer;
+    }
+
+    .nav-list {
+        display: none;
+    }
+
+    .drop:hover .nav-list {
+        display: block;
+        position: absolute; 
+        background-color:rgba(206, 113, 193, 0.692);
+        right: 0px;
+        
+    }
+
+    .nav-btn:hover {
+        background-color:rgba(201, 143, 193, 0.692);
+        }
+
+    .navbar {
+        justify-content: space-between;
+    }
+
+    body {
+        font-size: 3em;
+    }
+
+}

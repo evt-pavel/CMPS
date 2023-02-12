@@ -5,34 +5,41 @@
 <head>
     <link rel="shortcut icon" href="https://cgmag.net/wp-content/uploads/2015/06/493vLlm.gif" type="image/gif">
     <link type="text/css" href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet"/>
+    <link type="text/css" href="{{ url_for('static', filename='css/nav-bar.css') }}" rel="stylesheet"/>
     <title>{{ title }}</title>
 </head>
 <body>
 
-<div class="nav-conteiner">
-    <nav>
-        <ul>
-            <li><a href="{{ url_for('main.index') }} ">Home</a></li>
-            <li><a href="#">Contacts</a></li>
-            <li><a href="#">About</a></li>
-        </ul>
-
-    </nav>
-    <nav>
-        <ul>
+<div class="navbar">
+    <div class="nav-href">    
+        <a href="{{ url_for('main.index') }} ">Главная</a>
+        {% if current_user.is_anonymous %}
+        {% else %}
+        <a href="{{ url_for('main.profile', username=current_user.name, id=current_user.id) }}">Профиль</a>
+        <a href="{{ url_for('main.basket') }}">Корзина</a>
+        {% endif %}
+    </div>
+    <div class="drop">
+        <button class="nav-btn">&#9776</button>
+        <div class="nav-list">
+    
+            <a href="#">Contacts</a>
+            <a href="#">About</a>
+        
+        
             {% if current_user.is_anonymous %}
-                <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+                <a href="{{ url_for('auth.login') }}">Login</a>
             {% else %}
+    
+            <a href="{{ url_for('auth.logout') }}">Logout</a>
+            {% endif %}     
+        </div>
 
-            <li><a href="{{ url_for('main.profile', username=current_user.name, id=current_user.id) }}">Profile</a></li>
-            <li><a href="{{ url_for('main.basket') }}">Basket</a></li>
-            <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
-        </ul>
-            {% endif %}
-    </nav>
-
+    </div>
 
 </div>
+
+
 
 {% with messages = get_flashed_messages() %}
 {% if messages %}
