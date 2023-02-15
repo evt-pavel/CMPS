@@ -10,7 +10,7 @@ from app.main import bp
 @bp.get('/')
 @bp.get('/index/')
 def index():
-    brands = session.query(Part).group_by(Part.model_id)
+    brands = session.query(Part).join(Model).join(Brand).group_by(Part.model_id).order_by(Brand.brand_name)
     return render_template('main/index.html', title='WLCM T CMPS', brands=brands)
 
 
@@ -43,7 +43,7 @@ def model(brand_id, type_id, brand_name):
 
 @bp.get('/<brand_name>/<brand_id>/type/<type_id>/model/<model_name>/<model_id>/element')
 def element(brand_name, brand_id, type_id, model_name, model_id):
-    parts = session.query(Part).filter_by(model_id=model_id)
+    parts = session.query(Part).filter_by(model_id=model_id).group_by(Part.element_id)
 
     return render_template('main/element.html', parts=parts)
 

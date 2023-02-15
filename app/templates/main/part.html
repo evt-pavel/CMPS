@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Добавьте интересующую вас деталь в корзину!</h1>
+<h3 class="text-center">Добавьте необходимую деталь в корзину!</h3>
 
 {% set part = parts[0] %}
     <i>
@@ -17,7 +17,7 @@
     </i>
     <br><br>
 
-<img src="{{ url_for('static', filename=image) }}" width="700" height="500" alt="Тут картинка"><br>
+<!-- <img src="{{ url_for('static', filename=image) }}" width="700" height="500" alt="Тут картинка"><br>
 {% for part in parts %}
     {{ part.description }}
     {% if part.amount > 0 %}
@@ -28,6 +28,43 @@
     Цена {{ part.price }}, $
     <a href="{{ url_for('main.addToBasket', part_id=part.id) }}">Добавить в корзину</a>
 <br>
-
 {% endfor %}
-{% endblock %}
+ -->
+
+
+<div class="row">
+    <div class="col-sm-5 border">
+        <img src="{{ url_for('static', filename=image) }}" class="img-fluid" alt="Тут картинка">
+    </div>
+    <div class="col-sm-7">
+        <div class="row text-center">
+            <div class="col-4 col-lg-7 border">
+                Название
+            </div>
+            <div class="col-4 col-lg-2 border">
+                Цена
+            </div>
+            <div class="col-4 col-lg-3 border">
+                ---
+            </div>
+        </div>    
+            {% for part in parts %}
+            <div class="row">
+                <div class="col-4 col-lg-7 border text-left">
+                    {{ part.description }}
+                </div>
+                <div class="col-4 col-lg-2 border text-center">
+                    {{ part.price }}, $
+                </div>
+                <div class="col-4 col-lg-3 border text-center">
+                    <a href="{{ url_for('main.addToBasket', part_id=part.id) }}">В корзину</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    {% endblock %}
+
+
+

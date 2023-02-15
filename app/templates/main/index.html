@@ -1,13 +1,16 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Каталог запчастей для китайских мотоциклов!</h1> <br>
+<img src="https://1001krep.ru/d/gost-30188-97-img0.png" class="img-fluid" alt="">
 
+<h4>Выберите интересующий бренд:</h4>
 
+<div class="row row-cols-auto">
 {% for brand in brands %}
-    <a href="{{ url_for('main.type', brand_id=brand.model.brand_id, brand_name=brand.model.brand.brand_name) }}">
-        {{ brand.model.brand.brand_name }}
-    </a> <br>
+    <div class="col">
+        <a href="{{ url_for('main.type', brand_id=brand.model.brand_id, brand_name=brand.model.brand.brand_name) }}">{{ brand.model.brand.brand_name }}</a>
+    </div>
 {% endfor %}
+</div>
 
 {% endblock %}
