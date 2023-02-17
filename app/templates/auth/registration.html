@@ -2,7 +2,7 @@
 {% block content %}
 
 <h1>Registration.</h1>
-<form action="" method="POST" novalidate>
+<!-- <form action="" method="POST" novalidate>
     <p>
         {{ form.name.label }}<br>
         {{ form.name(size=32) }}<br>
@@ -49,6 +49,107 @@
     </p>
     <p>
         {{ form.submit() }}
-    </p>
+    </p> -->
 
+<div class="col-lg-6">
+
+    <form action="" method="POST" novalidate>
+        <div class="form-floating mb-3">
+    
+            {% if form.name.errors %}
+  
+                {% for error in form.name.errors %}
+                <div class="form-floating">
+                    {{ form.email(class="form-control is-invalid", id="floatingInputInvalid", placeholder="Имя") }}
+                    <label for="floatingInputInvalid">{{ error }}</label>
+                </div>                
+                {% endfor %}
+    
+            {% else %}
+    
+            {{ form.name(class="form-control", id="floatingInput", placeholder="Имя") }}
+            {{ form.name.label(for="floatingInput") }}
+                    
+            {% endif %}
+        </div>
+
+        <div class="form-floating mb-3">
+    
+            {% if form.last_name.errors %}
+  
+                {% for error in form.last_name.errors %}
+                <div class="form-floating">
+                    {{ form.email(class="form-control is-invalid", id="floatingInputInvalid", placeholder="name@example.com") }}
+                    <label for="floatingInputInvalid">{{ error }}</label>
+                </div>                
+                {% endfor %}
+    
+            {% else %}
+    
+            {{ form.last_name(class="form-control", id="floatingInput", placeholder="Почта") }}
+            {{ form.last_name.label(for="floatingInput") }}
+                    
+            {% endif %}
+        </div>
+
+        <div class="form-floating mb-3">
+    
+            {% if form.email.errors %}
+  
+                {% for error in form.email.errors %}
+                <div class="form-floating">
+                    {{ form.email(class="form-control is-invalid", id="floatingInputInvalid", placeholder="name@example.com") }}
+                    <label for="floatingInputInvalid">{{ error }}</label>
+                </div>                
+                {% endfor %}
+    
+            {% else %}
+    
+            {{ form.email(class="form-control", id="floatingInput", placeholder="Почта") }}
+            {{ form.email.label(for="floatingInput") }}
+                    
+            {% endif %}
+        </div>
+
+        <div class="form-floating mb-3">
+    
+            {% if form.password.errors %}
+  
+                {% for error in form.password.errors %}
+                <div class="form-floating">
+                    {{ form.email(class="form-control is-invalid", id="floatingInputInvalid", placeholder="name@example.com") }}
+                    <label for="floatingInputInvalid">{{ error }}</label>
+                </div>                
+                {% endfor %}
+    
+            {% else %}
+    
+            {{ form.password(class="form-control", id="floatingInput", placeholder="Почта") }}
+            {{ form.password.label(for="floatingInput") }}
+                    
+            {% endif %}
+        </div>
+
+        <div class="form-floating mb-3">
+    
+            {% if form.repeat_password.errors %}
+  
+                {% for error in form.repeat_password.errors %}
+                <div class="form-floating">
+                    {{ form.email(class="form-control is-invalid", id="floatingInputInvalid", placeholder="name@example.com") }}
+                    <label for="floatingInputInvalid">{{ error }}</label>
+                </div>                
+                {% endfor %}
+    
+            {% else %}
+    
+            {{ form.repeat_password(class="form-control", id="floatingInput", placeholder="Почта") }}
+            {{ form.repeat_password.label(for="floatingInput") }}
+                    
+            {% endif %}
+        </div>
+        <button type="submit" class="btn btn-primary">Войти</button>      
+
+    </form>
+</div>
 {% endblock %}

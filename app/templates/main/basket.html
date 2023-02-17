@@ -2,41 +2,54 @@
 {% block content %}
 
 {% if basket == 'Корзина пуста!' %}
-    <h1>{{ basket }}</h1>
+    <h3>{{ basket }}</h3>
 {% else %}
-    <table>
-        <tr>
-            <td>Номер</td>
-            <td>Название</td>
-            <td>Цена</td>
-            <td>Количество</td>
-        </tr>
-        {% for b in basket %}
-        <tr>
-            <td>{{ b.part.part_number }}</td>
-            <td>{{ b.part.description }}</td>
-            <td>{{ b.part.price * b.amount }}</td>
-            <td>{{ b.amount }}</td>
-            <td><a href="{{ url_for('main.deleteFromBasket', order_id=b.order_id, part_id=b.part_id) }}">Удалить</a> </td>
-        </tr>
-        <br>
-    </table>
+<div class="container">
+    <div class="row row-cols-5">
+        <div class="col-2">id</div>
+        <div class="col-3">Название</div>
+        <div class="col-2">Сумма</div>
+        <div class="col-2">Колич.</div>
+    </div>
+</div>
 
-        {% endfor %}
-    <h3>Введите адрес!</h3>
+<div class="container">
+    <div class="row row-cols-5 border">
+    {% for b in basket %}
+        <div class="col-2">{{ b.part.part_number }}</div>
+        <div class="col-3">{{ b.part.description }}</div>
+        <div class="col-2">{{ b.part.price * b.amount }}</div>
+        <div class="col-2">{{ b.amount }}</div>
+        <div class="col-3"><a href="{{ url_for('main.deleteFromBasket', order_id=b.order_id, part_id=b.part_id) }}">Удалить</a></div>
+    {% endfor %}
+    </div>
+</div>
+
+<br>
+<h3>Введите адрес доставки</h3>
+<div class="col-lg-6">
+
     <form action="" method="POST" novalidate>
-        <p>
-            {{ form.address.label }}<br>
-            {{ form.address(size=64) }}<br>
+        <div class="form-floating mb-3">
+
             {% if form.address.errors %}
+
                 {% for error in form.address.errors %}
-                    <span style="color: red;">{{ error }}</span>
+                <div class="form-floating">
+                    {{ form.email(class="form-control is-invalid", id="floatingInputInvalid", placeholder="Адрес") }}
+                    <label for="floatingInputInvalid">{{ error }}</label>
+                </div>                
                 {% endfor %}
+
+            {% else %}
+
+            {{ form.address(class="form-control", id="floatingInput", placeholder="Адрес") }}
+            {{ form.address.label(for="floatingInput") }}
+                
             {% endif %}
-        </p>
-        <p>
-            {{ form.submit() }}
-        </p>
-</form>
+          </div>
+          <button type="submit" class="btn btn-primary">Оформить заказ</button>
+
+    </form>
 {% endif %}
 {% endblock %}
