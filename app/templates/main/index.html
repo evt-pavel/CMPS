@@ -2,16 +2,18 @@
 
 {% block content %}
 <div class="text-center">
-    <img src="https://1001krep.ru/d/gost-30188-97-img0.png" class="img-fluid" alt="">
+    <img src="https://1001krep.ru/d/gost-30188-97-img0.png" class="img-fluid rounded-2" alt="">
 
     <h4>Выберите интересующий бренд:</h4></div>
-
-<div class="row row-cols-auto text-center">   
-{% for brand in brands %}
-    <div class="col-2">
-        <a href="{{ url_for('main.type', brand_id=brand.model.brand_id, brand_name=brand.model.brand.brand_name) }}">{{ brand.model.brand.brand_name }}</a>
-    </div>
-{% endfor %}
+<div class="container-md">
+    <div class="row row-cols-auto text-center">   
+        {% for brand in brands %}
+            <div class="col-2">
+                <a href="{{ url_for('main.type', brand_id=brand.model.brand_id, brand_name=brand.model.brand.brand_name) }}">{{ brand.model.brand.brand_name }}</a>
+            </div>
+        {% endfor %}
+        </div>
 </div>
+
 
 {% endblock %}

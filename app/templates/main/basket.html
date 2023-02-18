@@ -4,52 +4,59 @@
 {% if basket == 'Корзина пуста!' %}
     <h3>{{ basket }}</h3>
 {% else %}
-<div class="container">
-    <div class="row row-cols-5">
-        <div class="col-2">id</div>
-        <div class="col-3">Название</div>
-        <div class="col-2">Сумма</div>
-        <div class="col-2">Колич.</div>
-    </div>
-</div>
 
-<div class="container">
-    <div class="row row-cols-5 border">
+<div class="container-md float-start">
+    <div class="row text-center">
+        <div class="col-2">id</div>
+        <div class="col-4">Название</div>
+        <div class="col-1">$</div>
+        <div class="col-1">Колич.</div>
+    </div>
+
+    <div class="row mb-3">
     {% for b in basket %}
-        <div class="col-2">{{ b.part.part_number }}</div>
-        <div class="col-3">{{ b.part.description }}</div>
-        <div class="col-2">{{ b.part.price * b.amount }}</div>
-        <div class="col-2">{{ b.amount }}</div>
-        <div class="col-3"><a href="{{ url_for('main.deleteFromBasket', order_id=b.order_id, part_id=b.part_id) }}">Удалить</a></div>
+        <div class="col-2 text-left border">{{ b.part.part_number }}</div>
+        <div class="col-4 text-left border">{{ b.part.description }}</div>
+        <div class="col-1 text-center border">{{ b.part.price * b.amount }}</div>
+        <div class="col-1 text-center border">{{ b.amount }}</div>
+        <div class="col-3 text-left">
+            <a href="{{ url_for('main.deleteFromBasket', order_id=b.order_id, part_id=b.part_id) }}">
+                <button type="button" class="btn btn-outline-danger">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag-x" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M6.146 8.146a.5.5 0 0 1 .708 0L8 9.293l1.146-1.147a.5.5 0 1 1 .708.708L8.707 10l1.147 1.146a.5.5 0 0 1-.708.708L8 10.707l-1.146 1.147a.5.5 0 0 1-.708-.708L7.293 10 6.146 8.854a.5.5 0 0 1 0-.708z"></path>
+                    <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z"></path>
+                    </svg>
+                    Удалить
+                  </button>
+            </a>
+    </div>
     {% endfor %}
     </div>
-</div>
 
-<br>
-<h3>Введите адрес доставки</h3>
-<div class="col-lg-6">
-
+    <h3>Введите адрес доставки</h3>
     <form action="" method="POST" novalidate>
         <div class="form-floating mb-3">
 
             {% if form.address.errors %}
 
-                {% for error in form.address.errors %}
-                <div class="form-floating">
-                    {{ form.email(class="form-control is-invalid", id="floatingInputInvalid", placeholder="Адрес") }}
-                    <label for="floatingInputInvalid">{{ error }}</label>
-                </div>                
-                {% endfor %}
+            {% for error in form.address.errors %}
+            <div class="form-floating col-sm-8">
+                {{ form.address(class="form-control is-invalid", id="floatingInputInvalid", placeholder="Адрес") }}
+                <label for="floatingInputInvalid">{{ error }}</label>
+            </div>
+            {% endfor %}
 
             {% else %}
-
+            <div class="form-floating col-sm-8">
             {{ form.address(class="form-control", id="floatingInput", placeholder="Адрес") }}
             {{ form.address.label(for="floatingInput") }}
-                
-            {% endif %}
-          </div>
-          <button type="submit" class="btn btn-primary">Оформить заказ</button>
+            </div>
 
+            {% endif %}
+        </div>
+        <button type="submit" class="btn btn-primary">Оформить заказ</button>
     </form>
+
+</div>
 {% endif %}
-{% endblock %}
+{% endblock%}

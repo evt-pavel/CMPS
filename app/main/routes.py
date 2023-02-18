@@ -74,6 +74,7 @@ def basket():
         order.address = form.address.data
         order.date_order = datetime.utcnow()
         session.commit()
+        flash('Заказ оформлен!')
 
 
     order = session.query(Order).filter(Order.user_id == current_user.id).filter(Order.status == None).first()
