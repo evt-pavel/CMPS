@@ -9,7 +9,7 @@
     <div class="row row-cols-auto text-center">   
         {% for brand in brands %}
             <div class="col-2">
-                <a href="{{ url_for('main.type', brand_id=brand.model.brand_id, brand_name=brand.model.brand.brand_name) }}">{{ brand.model.brand.brand_name }}</a>
+                <a class="text-decoration-none" href="{{ url_for('main.type', brand_id=brand.model.brand_id, brand_name=brand.model.brand.brand_name) }}">{{ brand.model.brand.brand_name }}</a>
             </div>
         {% endfor %}
         </div>

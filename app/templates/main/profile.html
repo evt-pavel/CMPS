@@ -7,7 +7,7 @@ email: {{ user.email }}
 Мои заказы:<br>
 
 {% for order in orders %}
-    <a href="{{ url_for('main.order', order_id=order.id) }}">Заказ №{{ order.id }}
+    <a class="text-decoration-none" href="{{ url_for('main.order', order_id=order.id) }}">Заказ №{{ order.id }}
         от {{ order.date_order }}</a><br>
 {% endfor %}
 

@@ -2,10 +2,40 @@
 
 {% block content %}
 
-{% for part in parts %}
-    {{ part.part.description }} для {{ part.part.model.brand.brand_name }}
-{{ part.part.model.model_name }} - {{ part.amount }} шт.<br>
+<div class="container  float-start">
+    {% for b in parts %}
+    <div class="container">
+        <div class="row">
+            <div class="col-7">
+                <div class="row">
+                    <div class="col">
+                        <div class="row border">
+                            {{ b.part.part_number }}
+                        </div>
+                        <div class="row border">
+                            {{ b.part.description }}
+                        </div>
+                        <div class="row border">
+                            {{ b.part.model.brand.brand_name }}
+                        </div>
+                        <div class="row border">
+                            {{ b.part.model.model_name }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-2 border">
+                {{ b.amount }} шт.
+            </div>
+            <div class="col-3 border">
+                {{ b.part.price * b.amount }} $
+
+            </div>
+        </div>
+    </div>
+    <br>
 {% endfor %}
-<a href="{{ url_for('main.profile', username=current_user.name, id=current_user.id) }}">Назад</a>
+<a href="{{ url_for('main.profile', username=current_user.name, id=current_user.id) }}"><button type="" class="btn btn-primary">Назад</button></a>
 
 {% endblock %}

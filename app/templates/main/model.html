@@ -8,6 +8,15 @@
     <a href="{{ url_for('main.type', brand_id=part.brand_id, brand_name=part.brand.brand_name) }}">Тип:</a> {{ part.type.type_name }}
 </i><br><br>
 
+
+<nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{{ url_for('main.index') }}">Главная</a></li>
+      <li class="breadcrumb-item"><a href="{{ url_for('main.type', brand_id=part.brand_id, brand_name=part.brand.brand_name) }}">{{ part.brand.brand_name }}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{{ part.type.type_name }}</li>
+      </ol>
+  </nav>
+
 {% for part in parts %}
 <a href="{{ url_for('main.element', brand_name=part.brand.brand_name,
                             brand_id=part.brand_id,

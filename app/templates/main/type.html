@@ -3,7 +3,14 @@
 <h1>Выберите тип техники!</h1>
 
 {% set part = parts[0] %}
-<i><a href="{{ url_for('main.index') }}">Бренд:</a> {{ part.brand.brand_name }}/</i><br><br>
+<!-- <i><a href="{{ url_for('main.index') }}">Бренд: </a> {{ part.brand.brand_name }}/</i><br><br> -->
+
+<nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{{ url_for('main.index') }}">Главная</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{{ part.brand.brand_name }}</li>
+    </ol>
+  </nav>
 
 {% for part in parts %}
 <a href="{{ url_for('main.model', brand_id=part.brand_id, type_id=part.type_id, brand_name=part.brand.brand_name) }}">{{ part.type.type_name }}</a><br>
