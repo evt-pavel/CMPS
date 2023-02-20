@@ -1,16 +1,33 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Profile: {{ user.name }} {{user.last_name}}</h1>
-email: {{ user.email }}
-<br>
 
-Мои заказы:<br>
 
-{% for order in orders %}
+
+<div class="container-fluid float-start border">
+    <div class="row">
+        <div class="col">
+            Имя: {{ user.name }}
+        </div>
+        <div class="row">
+            <div class="col">
+                Фамилия: {{user.last_name}}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            email: {{ user.email }}
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    Мои заказы:<br>
+
+    {% for order in orders %}
     <a class="text-decoration-none" href="{{ url_for('main.order', order_id=order.id) }}">Заказ №{{ order.id }}
         от {{ order.date_order }}</a><br>
 {% endfor %}
-
-
+</div>
 
 {% endblock %}

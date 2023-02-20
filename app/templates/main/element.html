@@ -4,16 +4,16 @@
 
 {% set part = parts[0] %}
 
-<i>
-    <a href="{{ url_for('main.index') }}">Бренд:</a> {{ part.model.brand.brand_name }}/
+<nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{{ url_for('main.index') }}">Главная</a></li>
+      <li class="breadcrumb-item"><a href="{{ url_for('main.type', brand_id=part.model.brand_id, brand_name=part.model.brand.brand_name) }}">{{ part.model.brand.brand_name }}</a></li>
+      <li class="breadcrumb-item"><a href="{{ url_for('main.model', brand_id=part.model.brand_id, brand_name=part.model.brand.brand_name, type_id=part.model.type_id) }}">{{ part.model.type.type_name }}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{{ part.model.model_name }}</li>
+      </ol>
+  </nav>
 
-    <a href="{{ url_for('main.type', brand_id=part.model.brand_id, brand_name=part.model.brand.brand_name) }}">
-        Тип:</a> {{ part.model.type.type_name }}/
 
-    <a href="{{ url_for('main.model', brand_id=part.model.brand_id, brand_name=part.model.brand.brand_name, type_id=part.model.type_id) }}">
-        Модель:</a> {{ part.model.model_name }}
-
-</i><br><br>
 
 
 {% for part in parts %}

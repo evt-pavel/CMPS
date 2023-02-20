@@ -22,6 +22,7 @@ def profile(id):
     return render_template('main/profile.html', title='profile', user=user, orders=orders)
 
 
+
 @bp.get('/profile/order/<order_id>')
 @login_required
 def order(order_id):

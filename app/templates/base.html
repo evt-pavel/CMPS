@@ -8,7 +8,7 @@
     <title>{{ title }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-<body class="font-size-base">
+<body class="font-size-base fs-5">
   <header>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
       <div class="container-fluid">
@@ -20,7 +20,7 @@
           <ul class="navbar-nav">
               {% if current_user.is_anonymous %}
               <li class="nav-item">
-                <a class="nav-link " href="{{ url_for('auth.login') }}">Авторизация</a>
+                <a class="nav-link" href="{{ url_for('auth.login') }}">Авторизация</a>
               </li>
               {% else %}
             <li class="nav-item">
